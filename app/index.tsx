@@ -88,14 +88,19 @@ export default function Index() {
     const { signer, verifier } = await createSignerVerifier();
 
     const sdjwt = new SDJwtInstance({
-      signer,
+      // SD-JWT
+      signer, // sign (ECDSA-P256)
       signAlg: ES256.alg,
-      verifier,
+      verifier, // verify
+
+      // Claim hashing
       hasher: digest,
       saltGenerator: generateSalt,
-      kbSigner: signer,
+
+      // Holder-binding (Key-Binding) JWT
+      kbSigner: signer, // sign (EdDSA-Ed25519)
       kbSignAlg: 'EdDSA',
-      kbVerifier: verifier,
+      kbVerifier: verifier, // verify
     });
 
     // Decode the JWT to verify its signature
